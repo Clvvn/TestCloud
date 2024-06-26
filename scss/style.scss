@@ -1,12 +1,15 @@
-$primary-color: #007BFF;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+$primary-color: #4682c2;
 $primary-color-light: lighten($primary-color, 20%);
 $primary-color-dark: darken($primary-color, 10%);
 $background-color: #f5f5f5;
 $container-color: #ffffff;
 $text-color: #333333;
+$error-color: #ff0000; // Цвет для подсветки некорректных полей
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     background-color: $background-color;
     margin: 0;
     padding: 0;
@@ -17,6 +20,7 @@ body {
 }
 
 .container {
+    position: fixed;
     background-color: $container-color;
     padding: 20px;
     border-radius: 8px;
@@ -48,10 +52,16 @@ h1 {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
+    transition: border-color 0.3s; // Анимация для перехода цвета рамки
 }
 
 .field textarea {
     resize: vertical;
+}
+
+.field.invalid-input input,
+.field.invalid-input textarea {
+    border-color: $error-color; // Устанавливаем красный цвет рамки при невалидном вводе
 }
 
 .amounts {
@@ -91,7 +101,7 @@ h1 {
     background-color: $primary-color;
     color: white;
     border-radius: 8px;
-    padding: 10px;
+    padding: 1px;
 }
 
 .recurring {

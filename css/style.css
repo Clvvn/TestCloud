@@ -1,6 +1,7 @@
 @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   background-color: #f5f5f5;
   margin: 0;
   padding: 0;
@@ -11,6 +12,7 @@ body {
 }
 
 .container {
+  position: fixed;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
@@ -22,7 +24,7 @@ body {
 h1 {
   margin-bottom: 20px;
   font-size: 24px;
-  color: #0062cc;
+  color: #3569a0;
 }
 
 .field {
@@ -42,10 +44,16 @@ h1 {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  transition: border-color 0.3s;
 }
 
 .field textarea {
   resize: vertical;
+}
+
+.field.invalid-input input,
+.field.invalid-input textarea {
+  border-color: #ff0000;
 }
 
 .amounts {
@@ -57,7 +65,7 @@ h1 {
 }
 
 .amount {
-  background-color: #66b0ff;
+  background-color: #93b6db;
   padding: 10px;
   border-radius: 8px;
   cursor: pointer;
@@ -78,14 +86,14 @@ h1 {
 }
 
 .amount:hover {
-  background-color: #007BFF;
+  background-color: #4682c2;
 }
 
 .amount input:checked + label {
-  background-color: #007BFF;
+  background-color: #4682c2;
   color: white;
   border-radius: 8px;
-  padding: 10px;
+  padding: 1px;
 }
 
 .recurring {
@@ -114,13 +122,13 @@ h1 {
   top: 0;
   width: 20px;
   height: 20px;
-  border: 2px solid #007BFF;
+  border: 2px solid #4682c2;
   border-radius: 4px;
   background-color: #ffffff;
 }
 
 .recurring input:checked + label::before {
-  background-color: #007BFF;
+  background-color: #4682c2;
   content: "✓";
   color: white;
   display: flex;
@@ -130,7 +138,7 @@ h1 {
 }
 
 button {
-  background-color: #007BFF;
+  background-color: #4682c2;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -141,7 +149,7 @@ button {
 }
 
 button:hover {
-  background-color: #0062cc;
+  background-color: #3569a0;
 }
 
 /*# sourceMappingURL=style.css.map */
