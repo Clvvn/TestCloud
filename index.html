@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дети в Лете - Благотворительный фонд</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://widget.cloudpayments.ru/bundles/cloudpayments"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Благотворительный фонд "Дети в Лете"</h1>
+        <form id="donation-form">
+            <div class="field">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="field">
+                <label for="phone">Номер телефона:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            <div class="field">
+                <label for="name">ФИО:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="field">
+                <label for="comment">Комментарий:</label>
+                <textarea id="comment" name="comment"></textarea>
+            </div>
+            <div class="amounts">
+                <div class="amount">
+                    <input type="radio" id="donation300" name="amount" value="300" checked>
+                    <label for="donation300">300 рублей</label>
+                </div>
+                <div class="amount">
+                    <input type="radio" id="donation500" name="amount" value="500">
+                    <label for="donation500">500 рублей</label>
+                </div>
+                <div class="amount">
+                    <input type="radio" id="donation700" name="amount" value="700">
+                    <label for="donation700">700 рублей</label>
+                </div>
+                <div class="amount">
+                    <input type="radio" id="donation1000" name="amount" value="1000">
+                    <label for="donation1000">1000 рублей</label>
+                </div>
+            </div>
+            <div class="recurring">
+                <input type="checkbox" id="recurring" name="recurring">
+                <label for="recurring">Ежемесячное пожертвование</label>
+            </div>
+            <button type="button" id="donate-button">Пожертвовать</button>
+        </form>
+    </div>
+</body>
+</html>
