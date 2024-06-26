@@ -7,10 +7,19 @@ $(document).ready(function() {
         const name = $('#name').val();
         const comment = $('#comment').val();
 
+        if (isNaN(amount) || !email || !phone || !name) {
+            alert('Пожалуйста, заполните все обязательные поля.');
+            return;
+        }
+
+        console.log("Запуск CloudPayments виджета с параметрами: ", {
+            amount, email, phone, name, comment, recurring
+        });
+
         var widget = new cp.CloudPayments();
 
         widget.pay('auth', { // или 'charge'
-            publicId: 'pk_aff17de359b486f45c12b4e4fdab0', // id из личного кабинета
+            publicId: 'test_api_00000000000000000000002', // id из личного кабинета
             description: 'Пожертвование в благотворительный фонд "Дети в Лете"', // назначение
             amount: amount, // сумма
             currency: 'RUB', // валюта
@@ -29,9 +38,10 @@ $(document).ready(function() {
             }
         }, {
             onSuccess: function(options) { // success
+                console.log('Успешный платеж: ', options);
                 if (recurring) {
                     widget.pay('auth', { // charge для ежемесячного списания
-                        publicId: 'pk_aff17de359b486f45c12b4e4fdab0',
+                        publicId: 'test_api_00000000000000000000002',
                         description: 'Ежемесячное пожертвование в благотворительный фонд "Дети в Лете"',
                         amount: amount,
                         currency: 'RUB',
@@ -44,9 +54,11 @@ $(document).ready(function() {
                         }
                     }, {
                         onSuccess: function(subscriptionOptions) {
+                            console.log('Успешная подписка: ', subscriptionOptions);
                             alert('Подписка успешно создана. Спасибо за ваше ежемесячное пожертвование!');
                         },
                         onFail: function(reason, subscriptionOptions) {
+                            console.log('Ошибка при создании подписки: ', reason);
                             alert('Ошибка при создании подписки: ' + reason);
                         }
                     });
@@ -55,9 +67,15 @@ $(document).ready(function() {
                 }
             },
             onFail: function(reason, options) { // fail
-                alert('Ошибка при оплате: ' + reason);
+                console.log('Ошибка при оплате: ', reason);
+                if (reason === 'User has cancelled') {
+                    alert('Платеж был отменен пользователем.');
+                } else {
+                    alert('Ошибка при оплате: ' + reason);
+                }
             },
             onComplete: function(paymentResult, options) { // Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
+                console.log('Транзакция завершена: ', paymentResult);
                 // Например вызов вашей аналитики
             }
         });
