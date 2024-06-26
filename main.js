@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $('#donate-button').click(function() {
-        const amount = $('input[name="amount"]:checked').val();
+        const amount = parseFloat($('input[name="amount"]:checked').val());
         const recurring = $('#recurring').is(':checked');
         const email = $('#email').val();
         const phone = $('#phone').val();
@@ -9,11 +9,10 @@ $(document).ready(function() {
 
         var widget = new cp.CloudPayments();
 
-        // Запуск виджета для одноразовой оплаты или создания рекуррентной подписки
         widget.pay('auth', { // или 'charge'
             publicId: 'pk_aff17de359b486f45c12b4e4fdab0', // id из личного кабинета
             description: 'Пожертвование в благотворительный фонд "Дети в Лете"', // назначение
-            amount: parseFloat(amount), // сумма
+            amount: amount, // сумма
             currency: 'RUB', // валюта
             accountId: email, // идентификатор плательщика (необязательно)
             skin: "mini", // дизайн виджета (необязательно)
@@ -21,21 +20,23 @@ $(document).ready(function() {
                 phone: phone,
                 name: name,
                 comment: comment
+            },
+            configuration: {
+                common: {
+                    successRedirectUrl: "http://clvvn.github.io/TestCloud/success", // адрес для перенаправления при успешной оплате
+                    failRedirectUrl: "http://clvvn.github.io/TestCloud/fail" // адрес для перенаправления при неуспешной оплате
+                }
             }
         }, {
             onSuccess: function(options) { // success
                 if (recurring) {
-                    // Если активирован чекбокс ежемесячного платежа, создаем подписку
-                    widget.subscription({
+                    widget.pay('auth', { // charge для ежемесячного списания
                         publicId: 'pk_aff17de359b486f45c12b4e4fdab0',
                         description: 'Ежемесячное пожертвование в благотворительный фонд "Дети в Лете"',
-                        amount: parseFloat(amount),
+                        amount: amount,
                         currency: 'RUB',
                         accountId: email,
                         email: email,
-                        period: 'Month',
-                        interval: 1,
-                        startDate: new Date(),
                         data: {
                             phone: phone,
                             name: name,
