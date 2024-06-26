@@ -59,7 +59,7 @@ $(document).ready(function() {
         }
 
         widget.charge({
-            publicId: 'test_api_00000000000000000000002',
+            publicId: 'pk_aff17de359b486f45c12b4e4fdab0',
             description: 'Пожертвование в благотворительный фонд "Дети в Лете"',
             amount: amount,
             currency: 'RUB',
