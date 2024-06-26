@@ -61,10 +61,10 @@ $(document).ready(function() {
         // Добавляем комментарий в назначение платежа, если он указан
         if (comment) {
             data.CloudPayments.CustomerReceipt.Items.push({
-                label: 'Комментарий',
-                amount: 0,
+                label: 'Благодарим за Подертвование!: ' ,
+                amount: amount,
                 quantity: 1,
-                price: 0,
+                price: amount,
                 vat: 0,
                 method: 0,
                 object: 4,
@@ -95,6 +95,12 @@ $(document).ready(function() {
             } else {
                 alert('Ошибка при оплате: ' + reason);
             }
+        },
+        function (paymentResult, options) { // onComplete
+            console.log('Получен ответ с результатом транзакции: ', paymentResult);
+            // Добавьте здесь вызов вашей аналитики или других действий
         });
+        
+
     });
 });
