@@ -23,6 +23,7 @@ $(document).ready(function() {
             description: 'Пожертвование в благотворительный фонд "Дети в Лете"', // назначение
             amount: amount, // сумма
             currency: 'RUB', // валюта
+            invoiceId: '1234567', //номер заказа  (необязательно)
             accountId: email, // идентификатор плательщика (необязательно)
             skin: "mini", // дизайн виджета (необязательно)
             data: {
@@ -30,6 +31,10 @@ $(document).ready(function() {
                 name: name,
                 comment: comment
             },
+            data: {
+                myProp: 'myProp value'
+            },
+
             configuration: {
                 common: {
                     successRedirectUrl: "http://clvvn.github.io/TestCloud/success", // адрес для перенаправления при успешной оплате
@@ -40,7 +45,7 @@ $(document).ready(function() {
             onSuccess: function(options) { // success
                 console.log('Успешный платеж: ', options);
                 if (recurring) {
-                    widget.pay('auth', { // charge для ежемесячного списания
+                    widget.pay('charge', { // charge для ежемесячного списания
                         publicId: 'test_api_00000000000000000000002',
                         description: 'Ежемесячное пожертвование в благотворительный фонд "Дети в Лете"',
                         amount: amount,
