@@ -19,7 +19,7 @@ $(document).ready(function() {
         var widget = new cp.CloudPayments();
 
         widget.pay('auth', { // или 'charge'
-            publicId: 'test_api_00000000000000000000002', // id из личного кабинета
+            publicId: 'pk_aff17de359b486f45c12b4e4fdab0', // id из личного кабинета
             description: 'Пожертвование в благотворительный фонд "Дети в Лете"', // назначение
             amount: amount, // сумма
             currency: 'RUB', // валюта
@@ -29,8 +29,7 @@ $(document).ready(function() {
             data: {
                 phone: phone,
                 name: name,
-                comment: comment,
-                myProp: 'myProp value'
+                comment: comment
             },
             configuration: {
                 common: {
@@ -42,8 +41,8 @@ $(document).ready(function() {
             onSuccess: function(options) { // success
                 console.log('Успешный платеж: ', options);
                 if (recurring) {
-                    widget.subscription({
-                        publicId: 'test_api_00000000000000000000002',
+                    widget.createSubscription({
+                        publicId: 'pk_aff17de359b486f45c12b4e4fdab0',
                         description: 'Ежемесячное пожертвование в благотворительный фонд "Дети в Лете"',
                         amount: amount,
                         currency: 'RUB',
