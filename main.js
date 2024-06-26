@@ -1,14 +1,53 @@
+// Функция для проверки валидности email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Функция для проверки валидности номера телефона (допускаются цифры и определенные символы)
+function isValidPhoneNumber(phone) {
+    const phoneRegex = /^[0-9+\(\)#\.\s\/ext-]+$/;
+    return phoneRegex.test(phone);
+}
+
+// Функция для проверки валидности ФИО (допускаются только буквы и пробелы)
+function isValidName(name) {
+    const nameRegex = /^[а-яА-ЯёЁa-zA-Z\s'-]+$/;
+    return nameRegex.test(name);
+}
+
+// Обработчик события для проверки валидности данных перед отправкой формы
 $(document).ready(function() {
     $('#donate-button').click(function() {
+        const email = $('#email').val().trim();
+        const phone = $('#phone').val().trim();
+        const name = $('#name').val().trim();
+
+        // Проверка валидности email
+        if (!isValidEmail(email)) {
+            alert('Пожалуйста, введите корректный email.');
+            return;
+        }
+
+        // Проверка валидности номера телефона
+        if (!isValidPhoneNumber(phone)) {
+            alert('Пожалуйста, введите корректный номер телефона.');
+            return;
+        }
+
+        // Проверка валидности ФИО
+        if (!isValidName(name)) {
+            alert('Пожалуйста, введите корректное имя.');
+            return;
+        }
+
+        // Все проверки пройдены успешно, можно выполнить платеж
         const amount = parseFloat($('input[name="amount"]:checked').val());
         const recurring = $('#recurring').is(':checked');
-        const email = $('#email').val();
-        const phone = $('#phone').val();
-        const name = $('#name').val();
-        const comment = $('#comment').val();
+        const comment = $('#comment').val().trim();
 
-        if (isNaN(amount) || !email || !phone || !name) {
-            alert('Пожалуйста, заполните все обязательные поля.');
+        if (isNaN(amount)) {
+            alert('Пожалуйста, выберите сумму пожертвования.');
             return;
         }
 
