@@ -2,13 +2,20 @@ $(document).ready(function() {
     $('#donate-button').click(function() {
         const amount = parseFloat($('input[name="amount"]:checked').val());
         const recurring = $('#recurring').is(':checked');
-        const email = $('#email').val();
-        const phone = $('#phone').val();
-        const name = $('#name').val();
-        const comment = $('#comment').val();
+        const email = $('#email').val().trim();
+        const phone = $('#phone').val().trim();
+        const name = $('#name').val().trim();
+        const comment = $('#comment').val().trim();
 
-        if (isNaN(amount) || !email || !phone || !name) {
-            alert('Пожалуйста, заполните все обязательные поля.');
+        // Регулярные выражения для проверки корректности email, номера телефона и ФИО
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^\+?[0-9]{1,3}[- ]?\(?[0-9]{3}\)?[- ]?[0-9]{3}[- ]?[0-9]{2}[- ]?[0-9]{2}$/;
+        const nameRegex = /^[а-яА-ЯёЁa-zA-Z\s'-]+$/; // Пример для русского и английского языков
+
+        // Проверка на заполнение всех обязательных полей и их корректность
+        if (isNaN(amount) || !email || !phone || !name ||
+            !emailRegex.test(email) || !phoneRegex.test(phone) || !nameRegex.test(name)) {
+            alert('Пожалуйста, заполните все обязательные поля корректно.');
             return;
         }
 
