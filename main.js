@@ -58,6 +58,19 @@ $(document).ready(function() {
             };
         }
 
+        // Добавляем комментарий в назначение платежа, если он указан
+        if (comment) {
+            data.CloudPayments.CustomerReceipt.Items.push({
+                label: 'Комментарий',
+                amount: 0,
+                quantity: 1,
+                price: 0,
+                vat: 0,
+                method: 0,
+                object: 4,
+            });
+        }
+
         widget.charge({
             publicId: 'pk_aff17de359b486f45c12b4e4fdab0',
             description: 'Пожертвование в благотворительный фонд "Дети в Лете"',
