@@ -17,70 +17,70 @@ $(document).ready(function() {
         });
 
         var widget = new cp.CloudPayments();
-
-        widget.pay('auth', { // или 'charge'
-            publicId: 'pk_aff17de359b486f45c12b4e4fdab0', // id из личного кабинета
-            description: 'Пожертвование в благотворительный фонд "Дети в Лете"', // назначение
-            amount: amount, // сумма
-            currency: 'RUB', // валюта
-            invoiceId: '1234567', // номер заказа (необязательно)
-            accountId: email, // идентификатор плательщика (необязательно)
-            skin: "mini", // дизайн виджета (необязательно)
-            data: {
-                phone: phone,
-                name: name,
-                comment: comment
-            },
-            configuration: {
-                common: {
-                    successRedirectUrl: "http://clvvn.github.io/TestCloud/success", // адрес для перенаправления при успешной оплате
-                    failRedirectUrl: "http://clvvn.github.io/TestCloud/fail" // адрес для перенаправления при неуспешной оплате
+        
+        var receipt = {
+            Items: [
+                {
+                    label: 'Пожертвование', 
+                    price: amount,
+                    quantity: 1,
+                    amount: amount,
+                    vat: 0,
+                    method: 0,
+                    object: 4,
                 }
+            ],
+            taxationSystem: 0,
+            email: email,
+            phone: phone,
+            isBso: false,
+            amounts: {
+                electronic: amount,
+                advancePayment: 0.00,
+                credit: 0.00,
+                provision: 0.00
             }
-        }, {
-            onSuccess: function(options) { // success
-                console.log('Успешный платеж: ', options);
-                if (recurring) {
-                    widget.createSubscription({
-                        publicId: 'pk_aff17de359b486f45c12b4e4fdab0',
-                        description: 'Ежемесячное пожертвование в благотворительный фонд "Дети в Лете"',
-                        amount: amount,
-                        currency: 'RUB',
-                        accountId: email,
-                        email: email,
-                        period: 'Month',
-                        interval: 1,
-                        startDate: new Date().toISOString().split('T')[0], // Начало подписки с сегодняшнего дня
-                        data: {
-                            phone: phone,
-                            name: name,
-                            comment: comment
-                        }
-                    }, {
-                        onSuccess: function(subscriptionOptions) {
-                            console.log('Успешная подписка: ', subscriptionOptions);
-                            alert('Подписка успешно создана. Спасибо за ваше ежемесячное пожертвование!');
-                        },
-                        onFail: function(reason, subscriptionOptions) {
-                            console.log('Ошибка при создании подписки: ', reason);
-                            alert('Ошибка при создании подписки: ' + reason);
-                        }
-                    });
-                } else {
-                    alert('Платеж успешно выполнен. Спасибо!');
+        };
+
+        var data = {};
+        if (recurring) {
+            data.CloudPayments = {
+                CustomerReceipt: receipt,
+                recurrent: {
+                    interval: 'Month',
+                    period: 1,
+                    customerReceipt: receipt
                 }
-            },
-            onFail: function(reason, options) { // fail
-                console.log('Ошибка при оплате: ', reason);
-                if (reason === 'User has cancelled') {
-                    alert('Платеж был отменен пользователем.');
-                } else {
-                    alert('Ошибка при оплате: ' + reason);
-                }
-            },
-            onComplete: function(paymentResult, options) { // Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
-                console.log('Транзакция завершена: ', paymentResult);
-                // Например вызов вашей аналитики
+            };
+        } else {
+            data.CloudPayments = {
+                CustomerReceipt: receipt
+            };
+        }
+
+        widget.charge({
+            publicId: 'test_api_00000000000000000000002',
+            description: 'Пожертвование в благотворительный фонд "Дети в Лете"',
+            amount: amount,
+            currency: 'RUB',
+            invoiceId: '1234567',
+            accountId: email,
+            data: data
+        },
+        function (options) { // success
+            console.log('Успешный платеж: ', options);
+            if (recurring) {
+                alert('Подписка успешно создана. Спасибо за ваше ежемесячное пожертвование!');
+            } else {
+                alert('Платеж успешно выполнен. Спасибо!');
+            }
+        },
+        function (reason, options) { // fail
+            console.log('Ошибка при оплате: ', reason);
+            if (reason === 'User has cancelled') {
+                alert('Платеж был отменен пользователем.');
+            } else {
+                alert('Ошибка при оплате: ' + reason);
             }
         });
     });
