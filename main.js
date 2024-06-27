@@ -58,7 +58,7 @@ $(document).ready(function() {
             };
         }
 
-        // Добавляем комментарий в назначение платежа, если он указан
+        // Добавляем комментарий 
         if (comment) {
             data.CloudPayments.CustomerReceipt.Items.push({
                 label: 'Благодарим за Подертвование!: ' ,
@@ -98,7 +98,6 @@ $(document).ready(function() {
         },
         function (paymentResult, options) { // onComplete
             console.log('Получен ответ с результатом транзакции: ', paymentResult);
-            // Добавьте здесь вызов вашей аналитики или других действий
         });
         
 

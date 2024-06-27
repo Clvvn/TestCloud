@@ -4,13 +4,13 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-// Функция для проверки валидности номера телефона (допускаются только цифры и определенные символы)
+// Функция для проверки валидности номера телефона 
 function isValidPhoneNumber(phone) {
     const phoneRegex = /^\+?[0-9()-]*$/;
     return phoneRegex.test(phone);
 }
 
-// Функция для проверки валидности ФИО (допускаются только буквы, пробелы и дефисы)
+// Функция для проверки валидности ФИО 
 function isValidName(name) {
     const nameRegex = /^[а-яА-ЯёЁa-zA-Z\s'-]+$/;
     return nameRegex.test(name);
