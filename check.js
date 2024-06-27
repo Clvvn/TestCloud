@@ -1,22 +1,22 @@
-// Функция для проверки валидности email
+// email
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-// Функция для проверки валидности номера телефона 
+//  phone 
 function isValidPhoneNumber(phone) {
     const phoneRegex = /^\+?[0-9()-]*$/;
     return phoneRegex.test(phone);
 }
 
-// Функция для проверки валидности ФИО 
+// name 
 function isValidName(name) {
     const nameRegex = /^[а-яА-ЯёЁa-zA-Z\s'-]+$/;
     return nameRegex.test(name);
 }
 
-// Функция для динамической проверки полей при вводе
+// email
 $(document).ready(function() {
     $('#email').on('input', function() {
         const email = $(this).val().trim();
@@ -46,7 +46,7 @@ $(document).ready(function() {
     });
 });
 
-// Динамическая проверка полей перед разблокировкой кнопки
+// Check unblock button
 $(document).ready(function() {
     $('#donate-button').prop('disabled', true);
 

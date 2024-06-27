@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // Функция для получения и увеличения invoiceId
+    // Не обязательная функция по увеличению InvoiceId
     function getNextInvoiceId() {
         let currentInvoiceId = localStorage.getItem('currentInvoiceId');
         if (currentInvoiceId === null) {
@@ -15,7 +15,7 @@ $(document).ready(function() {
         const amount = parseFloat($('input[name="amount"]:checked').val());
         const recurring = $('#recurring').is(':checked');
         const email = $('#email').val();
-        const phone = $('#phone').val().replace(/[^0-9]/g, ''); // Удаляем все нецифровые символы
+        const phone = $('#phone').val().replace(/[^0-9]/g, ''); 
         const name = $('#name').val();
         const comment = $('#comment').val();
         const invoiceId = getNextInvoiceId();
@@ -54,7 +54,7 @@ $(document).ready(function() {
                 provision: 0.00
             }
         };
-
+        // Передаем поля фио, номер телефона и комментарий
         var data = {
             firstName: name.split(" ")[1] ,
             middleName: name.split(" ")[2],
@@ -73,7 +73,7 @@ $(document).ready(function() {
             };
         }
 
-        // Добавляем комментарий в чек, если он указан
+    
     //    if (comment) {
     //         receipt.Items.push({
     //             label: 'Комментарий: ' + comment,
@@ -86,9 +86,8 @@ $(document).ready(function() {
     //         });
     //  }
 
-        // Формируем объект payer
+        //  payer
         var payer = {
-        
             phone: phone
         };
 
@@ -100,8 +99,8 @@ $(document).ready(function() {
             accountId: email,
             invoiceId: invoiceId,
             email: email,
-            skin: "mini",
-            autoClose: 3,
+            skin: "modern",
+            autoClose: 5,
             data: data,
             configuration: {
                 common: {
@@ -112,6 +111,7 @@ $(document).ready(function() {
             payer: payer 
           
         },
+        // Popup для наглядности
         function (options) { // success
             console.log('Успешный платеж: ', options);
             if (recurring) {
