@@ -16,8 +16,16 @@ $(document).ready(function() {
             amount, email, phone, name, comment, recurring
         });
 
-        var widget = new cp.CloudPayments();
-        
+        var widget = new cp.CloudPayments({
+            language: "ru-RU",
+            email: "",
+            applePaySupport: true,
+            googlePaySupport: true,
+            yandexPaySupport: true,
+            tinkoffPaySupport: true,
+            tinkoffInstallmentSupport: false,
+            sbpSupport: true,
+        });
         var receipt = {
             Items: [
                 {
