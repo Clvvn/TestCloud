@@ -1,9 +1,5 @@
-<script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
 $(document).ready(function() {
-    // Функция для генерации следующего номера счета (invoiceId)
+    // Не обязательная функция по увеличению InvoiceId
     function getNextInvoiceId() {
         let currentInvoiceId = localStorage.getItem('currentInvoiceId');
         if (currentInvoiceId === null) {
@@ -15,19 +11,11 @@ $(document).ready(function() {
         return currentInvoiceId.toString();
     }
 
-    // Функция перехода на страницу благодарности
-    function redirectToThankYouPage() {
-        // Здесь можешь вставить логику выбора страницы в зависимости от услуги
-        window.location.href = "https://developers.cloudpayments.ru/#parametry";
-        window.location.href = "https://developers.cloudpayments.ru";
-    }
-
-    // Обработчик кнопки оплаты
     $('#donate-button').click(function() {
         const amount = parseFloat($('input[name="amount"]:checked').val());
         const recurring = $('#recurring').is(':checked');
         const email = $('#email').val();
-        const phone = $('#phone').val().replace(/[^0-9]/g, '');
+        const phone = $('#phone').val().replace(/[^0-9]/g, ''); 
         const name = $('#name').val();
         const comment = $('#comment').val();
         const invoiceId = getNextInvoiceId();
@@ -41,12 +29,12 @@ $(document).ready(function() {
             amount, email, phone, name, comment, recurring, invoiceId
         });
 
-        const widget = new cp.CloudPayments();
-
-        const receipt = {
+        var widget = new cp.CloudPayments();
+        
+        var receipt = {
             Items: [
                 {
-                    label: 'Пожертвование',
+                    label: 'Пожертвование', 
                     price: amount,
                     quantity: 1,
                     amount: amount,
@@ -57,6 +45,7 @@ $(document).ready(function() {
             ],
             taxationSystem: 0,
             email: email,
+            //phone: phone,
             isBso: false,
             amounts: {
                 electronic: amount,
@@ -65,9 +54,9 @@ $(document).ready(function() {
                 provision: 0.00
             }
         };
-
-        const data = {
-            firstName: name.split(" ")[1],
+        // Передаем поля фио, номер телефона и комментарий
+        var data = {
+            firstName: name.split(" ")[1] ,
             middleName: name.split(" ")[2],
             lastName: name.split(" ")[0],
             phone,
@@ -76,7 +65,6 @@ $(document).ready(function() {
                 CustomerReceipt: receipt
             }
         };
-
         if (recurring) {
             data.CloudPayments.recurrent = {
                 interval: 'Month',
@@ -85,7 +73,21 @@ $(document).ready(function() {
             };
         }
 
-        const payer = {
+    
+    //    if (comment) {
+    //         receipt.Items.push({
+    //             label: 'Комментарий: ' + comment,
+    //             amount: 0,
+    //             quantity: 1,
+    //             price: 0,
+    //             vat: 0,
+    //             method: 0,
+    //             object: 4,
+    //         });
+    //  }
+
+        //  payer
+        var payer = {
             phone: phone
         };
 
@@ -102,17 +104,23 @@ $(document).ready(function() {
             data: data,
             configuration: {
                 common: {
-                    successRedirectUrl: "https://developers.cloudpayments.ru/#parametry",
-                    failRedirectUrl: "https://your-site.com/fail"
+                    successRedirectUrl: "https://your-site.com/success", 
+                    failRedirectUrl: "https://your-site.com/fail" 
                 }
             },
-            payer: payer
+            payer: payer 
+          
         },
-        function (options) { // onSuccess
+        // Popup для наглядности
+        function (options) { // success
             console.log('Успешный платеж: ', options);
-            redirectToThankYouPage();
+            if (recurring) {
+                alert('Подписка успешно создана. Спасибо за ваше ежемесячное пожертвование!');
+            } else {
+                alert('Платеж успешно выполнен. Спасибо!');
+            }
         },
-        function (reason, options) { // onFail
+        function (reason, options) { // fail
             console.log('Ошибка при оплате: ', reason);
             if (reason === 'User has cancelled') {
                 alert('Платеж был отменен пользователем.');
@@ -123,7 +131,6 @@ $(document).ready(function() {
         function (paymentResult, options) { // onComplete
             console.log('Получен ответ с результатом транзакции: ', paymentResult);
         });
+
     });
 });
-</script>
-
